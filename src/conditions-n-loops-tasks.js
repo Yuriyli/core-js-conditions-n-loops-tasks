@@ -331,12 +331,12 @@ function getBalanceIndex(arr) {
     total += arr[i];
   }
 
-  let leftSum = 0;
+  let left = 0;
   for (let i = 0; i < arr.length; i += 1) {
-    if (leftSum === total - leftSum - arr[i]) {
+    if (left === total - left - arr[i]) {
       return i;
     }
-    leftSum += arr[i];
+    left += arr[i];
   }
   return -1;
 }
@@ -362,10 +362,58 @@ function getBalanceIndex(arr) {
  *          [10, 9,  8,  7]
  *        ]
  */
-function getSpiralMatrix(/* size */) {
-  throw new Error('Not implemented');
-}
+function getSpiralMatrix(size) {
+  const result = [];
+  for (let i = 0; i < size; i += 1) {
+    result[i] = [];
+  }
 
+  const total = size * size;
+  let counter = 1;
+
+  let x = 0;
+  let y = 0;
+  let xDir = 1;
+  let yDir = 0;
+  let length = size - 1;
+  let cycle = 0;
+
+  function cycleDir() {
+    if (xDir === 1) {
+      xDir = 0;
+      yDir = 1;
+      if (cycle > 3) {
+        length -= 1;
+      }
+    } else if (yDir === 1) {
+      xDir = -1;
+      yDir = 0;
+    } else if (xDir === -1) {
+      xDir = 0;
+      yDir = -1;
+      length -= 1;
+    } else {
+      xDir = 1;
+      yDir = 0;
+    }
+    cycle += 1;
+  }
+
+  result[y][x] = counter;
+  counter += 1;
+
+  while (counter <= total) {
+    for (let i = 0; i < length; i += 1) {
+      result[y + yDir][x + xDir] = counter;
+      counter += 1;
+      x += xDir;
+      y += yDir;
+    }
+    cycleDir();
+  }
+  cycleDir();
+  return result;
+}
 /**
  * Rotates a matrix by 90 degrees clockwise in place.
  * Take into account that the matrix size can be very large. Consider how you can optimize your solution.
