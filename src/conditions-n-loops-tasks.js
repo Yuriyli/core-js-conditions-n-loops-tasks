@@ -414,6 +414,7 @@ function getSpiralMatrix(size) {
   cycleDir();
   return result;
 }
+
 /**
  * Rotates a matrix by 90 degrees clockwise in place.
  * Take into account that the matrix size can be very large. Consider how you can optimize your solution.
@@ -429,10 +430,26 @@ function getSpiralMatrix(size) {
  *    [7, 8, 9]         [9, 6, 3]
  *  ]                 ]
  */
-function rotateMatrix(/* matrix */) {
-  throw new Error('Not implemented');
-}
+function rotateMatrix(matrix) {
+  const result = matrix;
+  const mLength = result.length;
 
+  const copy = [];
+  for (let i = 0; i < mLength; i += 1) {
+    copy[i] = [];
+    for (let j = 0; j < mLength; j += 1) {
+      copy[i][j] = result[i][j];
+    }
+  }
+
+  for (let y = 0; y < mLength; y += 1) {
+    for (let x = 0; x < mLength; x += 1) {
+      result[x][mLength - 1 - y] = copy[y][x];
+    }
+  }
+
+  return result;
+}
 /**
  * Sorts an array of numbers in ascending order in place.
  * Employ any sorting algorithm of your choice.
